@@ -4,7 +4,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @Entity
@@ -21,12 +22,12 @@ public class Student {
     @NonNull
     private String lastName;
     @NonNull
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private Date dob;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dob;
 
     private Integer age;
 
-//    public Integer getAge() {
-//        return Period.between(this.dob, LocalDate.now()).getYears();
-//    }
+    public Integer getAge() {
+        return Period.between(this.dob, LocalDate.now()).getYears();
+    }
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 
@@ -37,12 +38,11 @@ public class StudentController {
     }
 
     @PostMapping("/save")
-    public String saveStudent(@ModelAttribute("student") Student student) {
+    public RedirectView saveStudent(@ModelAttribute("student") Student student) {
         studentService.save(student);
 
 //        use a redirect to prevent duplicate submissions
-        return "redirect: student/list";
+        return new RedirectView("/student/list");
     }
-
 
 }
