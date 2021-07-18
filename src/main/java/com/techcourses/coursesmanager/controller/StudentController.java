@@ -25,6 +25,34 @@ public class StudentController {
         return "students/students-list";
     }
 
+    @GetMapping("/list/orderById")
+    public String getStudentsById(Model model) {
+        List<Student> studentList = studentService.orderById();
+        model.addAttribute("students", studentList);
+        return "students/students-list";
+    }
+
+    @GetMapping("/list/orderByFirstName")
+    public String getStudentsByFirstName(Model model) {
+        List<Student> studentList = studentService.orderByFirstName();
+        model.addAttribute("students", studentList);
+        return "students/students-List";
+    }
+
+    @GetMapping("/list/orderByLastName")
+    public String getStudentsByLastName(Model model) {
+        List<Student> studentList = studentService.orderByLastName();
+        model.addAttribute("students", studentList);
+        return "students/students-List";
+    }
+
+    @GetMapping("/list/orderByAge")
+    public String getStudentsByAge(Model model) {
+        List<Student> studentList = studentService.orderByAge();
+        model.addAttribute("students", studentList);
+        return "students/students-List";
+    }
+
     @GetMapping("/showFormForAdd")
     public String addStudent(Model model) {
 //        Create model attribute to bind the form data
@@ -33,7 +61,7 @@ public class StudentController {
         return "students/student-form";
     }
 
-    @GetMapping("showFormForUpdate")
+    @GetMapping("/showFormForUpdate")
     public String showFormForUpdate(@RequestParam("studentId") Long studentId, Model model) {
 //        Get the student from the service
         Student student = studentService.findById(studentId);

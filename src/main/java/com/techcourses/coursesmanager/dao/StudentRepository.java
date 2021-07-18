@@ -11,4 +11,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 //    adding a method to sort students by last name
 
      List<Student> findAllByOrderByLastNameAsc();
+     List<Student> findAllByOrderByFirstNameAsc();
+     List<Student> findAllByOrderByAgeAsc();
 }

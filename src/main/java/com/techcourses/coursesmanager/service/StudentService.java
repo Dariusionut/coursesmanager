@@ -21,6 +21,22 @@ public class StudentService {
         return studentRepository.findAllByOrderByLastNameAsc();
     }
 
+    public List<Student> orderById() {
+        return  studentRepository.findAll();
+    }
+
+    public List<Student> orderByFirstName() {
+        return studentRepository.findAllByOrderByFirstNameAsc();
+    }
+
+    public List<Student> orderByLastName() {
+        return studentRepository.findAllByOrderByLastNameAsc();
+    }
+
+    public List<Student> orderByAge() {
+        return studentRepository.findAllByOrderByAgeAsc();
+    }
+
     public Student findById(Long id) {
         Optional<Student> studentById = studentRepository.findById(id);
         Student student;
