@@ -18,12 +18,12 @@ public class StudentService {
     }
 
     public List<Student> findAll() {
-        return studentRepository.findAll();
+        return studentRepository.findAllByOrderByLastNameAsc();
     }
 
     public Student findById(Long id) {
         Optional<Student> studentById = studentRepository.findById(id);
-        Student student = null;
+        Student student;
         if (studentById.isPresent()) {
             student = studentById.get();
         } else {
