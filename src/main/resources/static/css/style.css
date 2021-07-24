@@ -1,3 +1,42 @@
+body {
+    margin: 0;
+
+}
+
 th > a {
     text-decoration: none;
+}
+
+.contact {
+    text-decoration: none;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+.dropdown-black {
+    background-color: black;
+    color: white;
+}
+
+.dropdown-black a {
+    color: white;
+}
+
+.navbar-brand .door:hover .fa-door-closed,
+.door .fa-door-closed {
+    display: none;
+}
+.navbar-brand .door:hover .fa-door-open {
+    display: inline;
 }
