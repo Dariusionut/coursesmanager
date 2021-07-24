@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="30">
+    <title>Tech Courses</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" th:href="@{/css/welcome.css}">
+</head>
+<body>
+<div  class="banner-text">
+    <ul class="f-right">
+        <li><i class="fas fa-home"></i></li>
+        <li><a th:href="@{/courses/list}">Courses</a></li>
+        <li><a th:href="@{/students/list}">Students</a></li>
+        <li>About</li>
+        <li>Portfolio</li>
+        <li>Contact</li>
+    </ul>
+    <h1 th:inline="text" sec:authorize="isAuthenticated()">Hello, [[${#httpServletRequest.remoteUser}]]!</h1>
+    <h2 th:text="${welcome}" sec:authorize="isAnonymous()"></h2>
+    <h2 th:text="${welcome}" sec:authorize="isAuthenticated()">!</h2>
+    <ul class="center">
+        <li><a th:href="@{/login}">login</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">logout</a></li>
+    </ul>
+
+</div>
+<div class="animation-area">
+    <ul class="box-area">
+        <li class="fab fa-java fa-8x"></li>
+        <li class="fab fa-angular fa-10x"></li>
+        <li class="fab fa-html5 fa-6x"></li>
+        <li class="fas fa-database fa-7x"></li>
+        <li class="fab fa-bootstrap fa-5x"></li>
+        <li class="fab fa-css3-alt fa-6x"></li>
+    </ul>
+</div>
+
+</body>
+</html>
