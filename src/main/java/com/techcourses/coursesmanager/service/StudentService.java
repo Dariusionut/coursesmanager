@@ -1,6 +1,8 @@
 package com.techcourses.coursesmanager.service;
 
+import com.techcourses.coursesmanager.dao.CourseRepository;
 import com.techcourses.coursesmanager.dao.StudentRepository;
+import com.techcourses.coursesmanager.entity.Course;
 import com.techcourses.coursesmanager.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,19 +12,17 @@ import java.util.Optional;
 
 @Service
 public class StudentService {
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, CourseRepository courseRepository) {
         this.studentRepository = studentRepository;
-    }
-
-    public List<Student> findAll() {
-        return studentRepository.findAllByOrderByLastNameAsc();
+        this.courseRepository = courseRepository;
     }
 
     public List<Student> orderById() {
-        return  studentRepository.findAll();
+        return studentRepository.findAll();
     }
 
     public List<Student> orderByFirstName() {
@@ -37,6 +37,25 @@ public class StudentService {
         return studentRepository.findAllByOrderByAgeAsc();
     }
 
+    public List<Student> orderByGender() {
+        return  studentRepository.findAllByOrderByGenderAsc();
+    }
+
+    public List<Student> orderByEmail() {
+        return studentRepository.findAllByOrderByEmailAsc();
+    }
+
+    public List<Student> searchBy (String name) {
+        List<Student> results;
+
+        if (name != null && (name.trim().length() > 0) ) {
+            results = studentRepository.findByFirstNameContainsOrLastNameContainingAllIgnoreCase(name, name);
+        } else {
+            results = orderByLastName();
+        }
+        return results;
+    }
+
     public Student findById(Long id) {
         Optional<Student> studentById = studentRepository.findById(id);
         Student student;
@@ -49,6 +68,10 @@ public class StudentService {
     }
 
     public void save(Student student) {
+        Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
+        if (studentByEmail.isPresent()){
+            throw new IllegalStateException("Email taken!");
+        }
         studentRepository.save(student);
     }
 

@@ -12,20 +12,36 @@ import java.time.Period;
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-@Table
+@Table(name = "student")
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
     @NonNull
+    @Column(name = "first_name")
     private String firstName;
     @NonNull
+    @Column(name = "last_name")
     private String lastName;
     @NonNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "dob")
     private LocalDate dob;
-
+    @Column(name = "age")
     private Integer age;
+    @NonNull
+    @Column(name = "gender")
+    private Character gender;
+    @NonNull
+    @Column(name = "email")
+    private String email;
+
+    @ManyToOne(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id", nullable = false)
+    @NonNull
+    private Course course;
 
     public Integer getAge() {
         return Period.between(this.dob, LocalDate.now()).getYears();
