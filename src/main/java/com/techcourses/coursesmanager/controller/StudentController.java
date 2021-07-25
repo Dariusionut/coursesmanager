@@ -3,6 +3,7 @@ package com.techcourses.coursesmanager.controller;
 import com.techcourses.coursesmanager.dao.CourseRepository;
 import com.techcourses.coursesmanager.entity.Course;
 import com.techcourses.coursesmanager.entity.Student;
+import com.techcourses.coursesmanager.service.CourseService;
 import com.techcourses.coursesmanager.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,12 +19,14 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
+    private final CourseService courseService;
 
     private final CourseRepository courseRepository;
 
     @Autowired
-    public StudentController(StudentService studentService, CourseRepository courseRepository) {
+    public StudentController(StudentService studentService, CourseService courseService, CourseRepository courseRepository) {
         this.studentService = studentService;
+        this.courseService = courseService;
         this.courseRepository = courseRepository;
     }
 
@@ -31,6 +34,10 @@ public class StudentController {
     @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')")
     public String getStudents(Model model) {
         List<Student> studentList = studentService.orderById();
+
+        List<Course> courseList = courseRepository.findAll();
+
+        model.addAttribute("courses", courseList);
         model.addAttribute("students", studentList);
         return "students/students-list";
     }
@@ -76,7 +83,7 @@ public class StudentController {
     }
 
     @GetMapping("/showFormForAdd")
-    @PreAuthorize("hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addStudent(Model model) {
 //        Create model attribute to bind the form data
 
@@ -84,7 +91,7 @@ public class StudentController {
         List<Course> courses = courseRepository.findAll();
 
         //adaugi atribut nou in model in care sa pui lista de cursuri : ex: model.addAttribute("coursesList", theListCourses)
-        model.addAttribute("courses", courses);
+        model.addAttribute("allCourses", courses);
 
         model.addAttribute("student", new Student());
         return "students/student-form";
@@ -92,11 +99,13 @@ public class StudentController {
 
     @GetMapping("/showFormForUpdate")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String showFormForUpdate(@RequestParam("studentId") Long studentId, Model model) {
+    public String showFormForUpdate(@RequestParam("studentId") Long studentId, @RequestParam("courseId") Long courseId, Model model) {
 //        Get the student from the service
         Student student = studentService.findById(studentId);
+        Course course = courseService.findById(courseId);
 //        Set student as a model attribute to pre-populate the form
         model.addAttribute("student", student);
+        model.addAttribute("course", course);
 //        Send it over to our form
         return "students/student-form";
     }
@@ -105,6 +114,8 @@ public class StudentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RedirectView saveStudent(@ModelAttribute("student") Student student) {
         studentService.save(student);
+
+
 //        use a redirect to prevent duplicate submissions
         return new RedirectView("/students/list");
     }

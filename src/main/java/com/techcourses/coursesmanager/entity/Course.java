@@ -3,8 +3,8 @@ package com.techcourses.coursesmanager.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
@@ -12,7 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "course")
-public class Course {
+public class Course implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -30,5 +30,5 @@ public class Course {
     @OneToMany(mappedBy = "course",
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
-    private Set<Student> students;
+    private List<Student> students;
 }

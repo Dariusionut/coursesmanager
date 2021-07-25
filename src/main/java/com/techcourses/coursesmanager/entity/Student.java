@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -13,7 +14,7 @@ import java.time.Period;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "student")
-public class Student {
+public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -38,9 +39,8 @@ public class Student {
     private String email;
 
     @ManyToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "course_id", nullable = false)
-    @NonNull
     private Course course;
 
     public Integer getAge() {

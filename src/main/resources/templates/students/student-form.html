@@ -16,7 +16,6 @@
             crossorigin="anonymous"></script>
 
     <title>Add Student</title>
-    <link rel="stylesheet" th:href="@{css/demo.css}">
 </head>
 <body>
 <header>
@@ -98,8 +97,8 @@
         </div>
 
         <div class="form-floating mb-3">
-            <select id="course" class="form-control col-4">
-                <option th:each="course : ${courses}"
+            <select th:field="*{course}" id="course" class="form-control col-4">
+                <option th:each="course : ${allCourses}"
                 th:value="${course.id}"
                 th:text="${course.name}">
                 </option>
