@@ -85,27 +85,24 @@ public class StudentController {
     @GetMapping("/showFormForAdd")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addStudent(Model model) {
-//        Create model attribute to bind the form data
-
-        //aducem lista de cursuri disponibile
+//        Add the list of available courses
         List<Course> courses = courseRepository.findAll();
-
-        //adaugi atribut nou in model in care sa pui lista de cursuri : ex: model.addAttribute("coursesList", theListCourses)
+//        Create model attribute to bind the form data
+//        Add a new attribute for courses list
         model.addAttribute("allCourses", courses);
-
         model.addAttribute("student", new Student());
         return "students/student-form";
     }
 
+//  TODO: need to fix update method
+
     @GetMapping("/showFormForUpdate")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String showFormForUpdate(@RequestParam("studentId") Long studentId, @RequestParam("courseId") Long courseId, Model model) {
+    public String showFormForUpdate(@RequestParam("studentId") Long studentId, Model model) {
 //        Get the student from the service
         Student student = studentService.findById(studentId);
-        Course course = courseService.findById(courseId);
 //        Set student as a model attribute to pre-populate the form
-        model.addAttribute("student", student);
-        model.addAttribute("course", course);
+        model.addAttribute("studentById", student);
 //        Send it over to our form
         return "students/student-form";
     }
@@ -114,7 +111,6 @@ public class StudentController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public RedirectView saveStudent(@ModelAttribute("student") Student student) {
         studentService.save(student);
-
 
 //        use a redirect to prevent duplicate submissions
         return new RedirectView("/students/list");
