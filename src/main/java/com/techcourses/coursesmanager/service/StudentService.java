@@ -68,6 +68,7 @@ public class StudentService {
     }
 
     public void save(Student student) {
+        student.setAge(student.getAge());
         Optional<Student> studentByEmail = studentRepository.findStudentByEmail(student.getEmail());
         if (studentByEmail.isPresent()){
             throw new IllegalStateException("Email taken!");
