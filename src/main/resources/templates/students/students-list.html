@@ -53,9 +53,8 @@
             </div>
             <a th:inline="text" sec:authorize="isAuthenticated()" class="navbar-brand" style="color: white">
                 Logged in as: [[${#httpServletRequest.remoteUser}]] </a>
-            <!--            <a th:href="@{/logout}" class="navbar-brand fas fa-door-open"></a>-->
-            <a th:href="@{/logout}" class="navbar-brand door">
-                <i class="fas fa-door-closed"></i>
+            <a th:href="@{/logout}" class="navbar-brand door"
+               onclick="if (!(confirm('Are you sure to log out?'))) return false">
                 <i class="fas fa-door-open"></i>
             </a>
         </div>
@@ -101,7 +100,7 @@
             <td th:text="${tempStudents.course.id} ? ${tempStudents.course.name}"></td>
             <td sec:authorize="hasRole('ROLE_ADMIN')">
                 <!--            Add update button-->
-                <a th:href="@{/students/showFormForUpdate(studentId=${tempStudents.id}, courseId=${tempStudents.course.id})}"
+                <a th:href="@{/students/showFormForUpdate(studentId=${tempStudents.id})}"
                    class="btn btn-info btn-sm"><i class="fas fa-user-edit"></i></a>
                 <!--            Add delete button-->
                 <a th:href="@{/students/delete(studentId=${tempStudents.id})}" class="btn btn-danger btn-sm ml-sm-1"

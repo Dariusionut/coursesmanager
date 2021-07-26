@@ -13,7 +13,7 @@
     <link rel="stylesheet" th:href="@{/css/welcome.css}">
 </head>
 <body>
-<div  class="banner-text">
+<div class="banner-text">
     <ul class="f-right">
         <li><i class="fas fa-home"></i></li>
         <li><a th:href="@{/courses/list}">Courses</a></li>
@@ -27,7 +27,9 @@
     <h2 th:text="${welcome}" sec:authorize="isAuthenticated()">!</h2>
     <ul class="center">
         <li><a th:href="@{/login}">login</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">logout</a></li>
+        <li sec:authorize="isAuthenticated()">
+            <a th:href="@{/logout}" onclick="if (!(confirm('Are you sure to log out?'))) return false">
+                logout</a></li>
     </ul>
 
 </div>

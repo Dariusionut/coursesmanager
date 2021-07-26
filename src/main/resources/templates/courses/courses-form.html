@@ -55,7 +55,10 @@
             </div>
             <a th:inline="text" sec:authorize="isAuthenticated()" class="navbar-brand" style="color: white">
                 Logged in as: [[${#httpServletRequest.remoteUser}]] </a>
-            <a th:href="@{/logout}" class="navbar-brand fas fa-door-open"></a>
+            <a th:href="@{/logout}" class="navbar-brand door"
+               onclick="if (!(confirm('Are you sure to log out?'))) return false">
+                <i class="fas fa-door-open"></i>
+            </a>
         </div>
     </nav>
 </header>
